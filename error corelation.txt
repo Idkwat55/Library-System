@@ -1,0 +1,4 @@
+A0000 : 
+give up. it's hopeless
+B0000 :
+exception in main controller - required table is not in database.
