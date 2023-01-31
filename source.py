@@ -13,19 +13,24 @@ version = "1.0.0 : 22-01-2023 "
 
 
 def tips():
-    print("An error occured!")
+    print("\nAn error occured!")
+    time.sleep(0.6)
     print("\n ~ Try using the keywords mention within brackets - ()")
+    time.sleep(0.5)
     print("\n ~ Try closing the program and restarting it")
+    time.sleep(0.5)
     print("\n ~ Check your connection to the server")
+    time.sleep(0.5)
     print("\n ~ Contact Admin and make sure server is running properly.")
+    time.sleep(0.5)
     restart()
 
 
 def restart():
-    restart = input("Restart the program? \n YES [Y] NO [N] \n")
+    restart = input("\nRestart the program? \n YES [Y] NO [N] \n  ")
      
     if restart == 'Y':
-        use_same = input("Restart using same credential? \n [Y]  [N]")
+        use_same = input("Restart using same credential? \n [Y]  [N]\n  ")
         if use_same == 'Y':
             get_Cred(get_key_dup)
         else :
@@ -34,10 +39,7 @@ def restart():
     else:
         pass
 
-def shutdown():
-    print("Exiting because of a user-related error...   LID - 05")
-    tips()
-
+ 
 
 def shutdown_error():
     i = 5
@@ -54,13 +56,23 @@ def start_frame():
     print(f"{str_5:>110}")
 
 def view(mycursor,TABLE):
-    view_db = input("View Database? \nYes[Y]  No[N] \n")
+    view_db = input("View Database? \nYes[Y]  No[N] \n  ")
     if view_db == 'Y':
             str_6 = "SELECT * FROM %s"%TABLE
             mycursor.execute(str_6)
             result = mycursor.fetchall()
+            how_fast = input("Enter the speed at which results are display.\n |Some table may contain a lot of records. In such situation customizing speed is advised].\n [Default is 0.5 secs per record.]\n [Leave blank or any non-numerical value to use default]\n  ")
+            while how_fast != "" and how_fast != " ":
+                while  type(how_fast) == 'int'  or type(how_fast) == 'float' :
+                    for x in result:
+                        print(x)
+                        time.sleep(how_fast)
+                break
             for x in result:
                 print(x)
+                time.sleep(0.5)
+
+            
     else:
         pass
     restart()
@@ -68,10 +80,12 @@ def view(mycursor,TABLE):
 
  
 
-def end_frame(mycursor,TABLE):
+def end_frame(mycursor,TABLE,mydb):
     view(mycursor,TABLE)
     time.sleep(0.2)
     print("Ending session...")
+    mycursor.close()
+    mydb.close()
     time.sleep(0.4)
     str_4 = "Session ENDED"
     print(str_4.center(100))
@@ -88,7 +102,7 @@ def frame(mycursor, mydb,TABLE):
         main(mycursor, mydb,TABLE)
         main(mycursor, mydb,TABLE)
         Multiple(mycursor, mydb,TABLE)
-        end_frame(mycursor,TABLE)
+        end_frame(mycursor,TABLE,mydb)
     else:
         tips()
 
@@ -100,27 +114,26 @@ def enter_data(name_b, author_b, total_b, available_b, mycursor, mydb,TABLE):
     mydb.commit()
 
 def main(mycursor, mydb,TABLE):
-    str_2 = "-"
-    print(str_2.center(50, '-'))
-    time.sleep(0.2)
-    name_b = input("\nEnter the name of the book : ")
-    time.sleep(0.2)
-    author_b = input("Enter the Name of the author :")
-    time.sleep(0.2)
-    total_b = input(("Enter the Total numbers of copies :"))
-    time.sleep(0.2)
-    available_b = input("Enter the currently available number of copies: ")
-
-    while name_b and author_b and total_b and available_b != "":
-        enter_data(name_b, author_b, total_b, available_b, mycursor, mydb,TABLE)
-        time.sleep(0.3)
-        print("\nData entry successful!")
+    try:
+        str_2 = "-"
         print(str_2.center(50, '-'))
-        break
-
-    else:
-        print("Error LID - 04")
-        shutdown()
+        time.sleep(0.2)
+        name_b = input("\nEnter the name of the book : ")
+        time.sleep(0.2)
+        author_b = input("Enter the Name of the author :")
+        time.sleep(0.2)
+        total_b = input(("Enter the Total numbers of copies :"))
+        time.sleep(0.2)
+        available_b = input("Enter the currently available number of copies: ")
+        while name_b and author_b and total_b and available_b != "":
+            enter_data(name_b, author_b, total_b,available_b, mycursor, mydb, TABLE)
+            time.sleep(0.3)
+            print("\nData entry successful!")
+            print(str_2.center(50, '-'))
+            break
+    except TypeError as error :
+        print("Error LID - 04",error)
+        restart()
 
 def Multiple(mycursor, mydb,TABLE):
     another_entry = input("Do another entry? (y/n): ")
@@ -134,7 +147,7 @@ def Multiple(mycursor, mydb,TABLE):
 
     else:
         print("Error occured LID - 03")
-        shutdown()
+        restart()
 
 def checkTableExists(dbcur, tablename,mydb):
      
@@ -155,7 +168,7 @@ def checkTableExists(dbcur, tablename,mydb):
     return False
 
 def save0(HOST,USER,PASSWORD,DATABASE,TABLE):
-    ask_2save = input("Save Credentials? \n |Your credentials will be encrypted and safely stored for quick access in future...|\n  [Y] [N]\n")
+    ask_2save = input("Save Credentials? \n |Your credentials will be encrypted and safely stored for quick access in future...|\n  [Y] [N]\n  ")
     try :
         if ask_2save == 'Y':
             save1(HOST,USER,PASSWORD,DATABASE,TABLE)
@@ -174,7 +187,11 @@ def get_Cred(get_key) :
         print('final ',final_key)
         setup(**final_key)
     except Exception as error:
-        print("Error  LID - 07 : \n  ",error) 
+        if '1045 (28000)' in str(error):
+            print("\nAccess to Server was Denied. Try Checking User Name Password combo.")
+            time.sleep(1)
+        else:
+            print("Error  LID - 07 : \n  ",error) 
         tips()
      
 
@@ -183,18 +200,18 @@ def get_Cred(get_key) :
 def use_svdCred(stat):
     if stat == 0 :
         return 
-    ask_2useCred = input("Use a locally stored Credntial? \n [Y] [N]\n")
+    ask_2useCred = input("Use a locally stored Credntial? \n [Y] [N]\n  ")
     if ask_2useCred == 'Y':
         try:
             print("Here's what we found ....")
-            time.sleep(0.05)
+            time.sleep(0.3)
             print("Total Credentials stored - ",keys,"\n")
             if keys != 0 :
                 show_key(keys)
             else:
                 print('No Credntials found')
                 config_(0)
-        except Exception as error :
+        except TypeError :
             print("Error LID - 02 : \n   ",error)
             
     else:
@@ -212,6 +229,7 @@ def show_key(keys):
         
             print(key_opt[i],' ~ '," [",values.strip('}{').replace('[', '').replace(']', '').replace("'","").replace(","," | "),"] ")
             i +=1
+            time.sleep(0.6)
  
  
         
@@ -223,18 +241,6 @@ def show_key(keys):
         get_Cred(get_key)
     except Exception as error :
         print("Error LID -06 \n   ",error)
-
-        
-
-    
-
-            
-
-
-
-
-
-        
 
 def setup(HOST,USER,PASSWORD,DATABASE,TABLE):
     time.sleep(0.2)
@@ -276,7 +282,7 @@ def setup(HOST,USER,PASSWORD,DATABASE,TABLE):
         print("Checking database...")
         
         checkTableExists(mycursor,TABLE,mydb)
-        time.sleep(3)
+        time.sleep(0.2)
         
         #print("Error!... \nCreating a temporary table... \nContact Admin later for rectification of the issue... ")
         #mycursor.execute("CREATE TABLE book_detail (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), author VARCHAR(255), total VARCHAR(255), available VARCHAR(255))")
@@ -289,19 +295,19 @@ def setup(HOST,USER,PASSWORD,DATABASE,TABLE):
 
 def config_(cred_stat):
     print(".")
-    time.sleep(0.09)
+    time.sleep(0.1)
     print(".")
-    time.sleep(0.09)
+    time.sleep(0.1)
     print(".")
-    time.sleep(0.09)
+    time.sleep(0.1)
     print("Preparing Server details...")
     use_svdCred(cred_stat)
-    time.sleep(0.09)
-    HOST = input("Enter Host : \nlocalhost | port | ip \n")
+    time.sleep(0.1)
+    HOST = input("Enter Host : \n |Localhost | Port | IP | \n  ")
     USER = input("Enter your user name  :")
-    PASSWORD = maskpass.askpass("Enter your password :")
-    DATABASE = input("Enter your Database : \na new database will be created if it doesn't already exists\n")
-    TABLE = input("Enter your database Table :\na new database will be created if it doesn't already exists\n")
+    PASSWORD = maskpass.askpass("Enter your Password :")
+    DATABASE = input("Enter your Database : \n |A New 'Database' will be created if it doesn't already exists|\n  ")
+    TABLE = input("Enter your database Table :\n |A New Database 'Table' will be created if it doesn't already exists\n  ")
     save0(HOST,USER,PASSWORD,DATABASE,TABLE)    
     setup(HOST,USER,PASSWORD,DATABASE,TABLE)
 

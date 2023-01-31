@@ -13,19 +13,22 @@ def save1(host_,user_,password_,database_,table_):
         Config.keys_stored = Config.keys_stored+1 
         print(Config.key_list)
         ke_lst = Config.key_list.copy()
+        ke_lst = str(ke_lst)
+        ke_lst = ke_lst.replace("'","")
+        
         with open(fileName, 'r', encoding='utf-8') as file:
             data = file.readlines()
-            
             data[0] = "keys_stored = {}\n".format(Config.keys_stored)
-            
+ 
         with open(fileName, 'w', encoding='utf-8') as file:
-            for line in data:
-                if line.strip("\n") != str(ke_lst):
-                    file.write(line)
-            file.writelines(data)
-    with open(fileName,'a') as file1:
-
-        file1.write("\nkey_list ={}\n".format(str(ke_lst)))
+            file.writelines(data[:-1])
+            
+    #with open(fileName, 'r', encoding='utf-8') as file1:
+        #data1 = file1.readlines()
+        
+    with open(fileName, 'a', encoding='utf-8') as file1:
+        file1.write( "\nkey_list ={}\n".format(ke_lst))
+ 
 
             
             
