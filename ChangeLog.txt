@@ -1,0 +1,41 @@
+Verison:1.0.0.2
+Version Status : Beta
+Date : 26-01-23
+
+Changes:
+~~~~~~~~~~~~
+1.Password Mask
+2.Credentials storage - Beta feature
+
+
+
+-------------------------------------------------------------------------------------------------------------------
+
+Verison:1.0.0.1
+Version Status : Beta
+Date : 23-01-23
+
+Changes:
+~~~~~~~~~~~~
+1.Error free user defined creation of database and database table
+2.Option to view records of selected table
+
+
+-------------------------------------------------------------------------------------------------------------------
+ 
+
+Verison:1.0.0.0
+Version Status : Beta
+Date : 21-01-23
+
+Description:
+~~~~~~~~~~~~
+
+1.Basic, error free, Working System
+
+Features :
+~~~~~~~~~~
+
+1.Create a specified database ,if its does not exist
+2.Create a specified table , if it does not exist
+3.Do single or Multiple data entries without ending session.

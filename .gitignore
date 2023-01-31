@@ -1,0 +1,7 @@
+*.vscode
+*.json
+*.code-workspace
+*.bin
+*.pem
+*.pyc
+
