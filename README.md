@@ -8,6 +8,9 @@ Features:
 ~ store your server credentials locally , and have an option to use saved credentials every session.
 ~ server password is encrypted under AES before stored, and decrypted when required.
 
+Made with py 3.9+
+
+~uses several modules
 
 Note:
 This is a ongoing project. The developer of this project is in no ways is an expert so, some things might be missing in the program , so if you find   anything that's off, please inform me.
