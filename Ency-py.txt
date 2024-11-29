@@ -1,0 +1,3 @@
+original term: pablo
+encrypted text: 122a2370d5
+key: f0cd591d829b17a661ca95024f14748e03c59f8aaf8edc57c890e8e7c2f4a67c
